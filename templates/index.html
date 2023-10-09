@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>System Monitor</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="mb-4">System Monitor</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">CPU Usage</h5>
+              <p class="card-text">
+                <span id="cpu" class="font-weight-bold"></span>%
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Memory Usage</h5>
+              <p class="card-text">
+                <span id="memory" class="font-weight-bold"></span>%
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const eventSource = new EventSource("/metrics");
+
+      eventSource.onmessage = function (event) {
+        const data = event.data.split(",");
+        document.getElementById("cpu").innerText = data[0];
+        document.getElementById("memory").innerText = data[1];
+      };
+    </script>
+  </body>
+</html>
